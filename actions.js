@@ -6,7 +6,8 @@ import { reqLogin, reqRegister, reqUser, reqPost, reqPostList } from '../api'
 
 export const useActions = (state, dispatch) => {
 
-  function sslogin({username, password}) {
+  function sslogin(username, password) {
+    console.log('actions',state, dispatch )
     const a = state.userList.indexOf(username)
     debugger
     const response = reqLogin({username, password})
@@ -24,4 +25,3 @@ export const useActions = (state, dispatch) => {
     sslogin
   }
 }
-

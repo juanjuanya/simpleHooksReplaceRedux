@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useActions } from "./actions";
+import { useActions, testActions1} from "./actions";
 
 import React, { createContext, useReducer, useContext } from "react";
-import { initialState} from './setReducers'
-import reducers from './combineReducer'
+import { initialState, userReducer} from './setReducers'
+// import reducers from './combineReducer'    //  testActions 
 
 const StoreContext = createContext(initialState)
 
@@ -15,17 +15,19 @@ const StoreProvider = ({ children }) => {
      dispatch 是用來和 Reducer 互通的 Function 。
      initState 不再是传入 Reducer 中， 而是在 useReducer 时一并处理
     */
-  const [state, dispatch] = useReducer(reducers, initialState)
+  const [state, dispatch] = useReducer(userReducer, initialState)
   //从useActions得到actions，并把它绕床给Context
   const actions = useActions(state, dispatch)
-  // const actions = {
-  //   ...useActions
-  // }
+ 
+
+  const reducer = (state,action) => {
+    const act = actions[action.type];
+  }
 
   //log新的状态
   useEffect( () => console.log({ newState: state }), [state], dispatch)
 
-  //Render state, dispatch and special case actions
+  // state, dispatch actions 
   return (
     <StoreContext.Provider value={{ state, dispatch, actions}}>
       {children}
@@ -34,8 +36,3 @@ const StoreProvider = ({ children }) => {
 }
 
 export { StoreContext, StoreProvider}
-
-// export const useStore = store => {
-//   const { state, dispatch } = useContext(StoreContext);
-//   return { state, dispatch };
-// };
