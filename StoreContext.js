@@ -18,16 +18,19 @@ const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initialState)
   //从useActions得到actions，并把它绕床给Context
   const actions = useActions(state, dispatch)
- 
+  console.log(actions)
+  
+
+  
 
   const reducer = (state,action) => {
     const act = actions[action.type];
   }
 
   //log新的状态
-  useEffect( () => console.log({ newState: state }), [state], dispatch)
+  useEffect( () => console.log({ newState: state }, state.userList[0]), [state], dispatch)
 
-  // state, dispatch actions 
+  //Render state, dispatch and special case actions
   return (
     <StoreContext.Provider value={{ state, dispatch, actions}}>
       {children}
@@ -36,3 +39,8 @@ const StoreProvider = ({ children }) => {
 }
 
 export { StoreContext, StoreProvider}
+
+// export const useStore = store => {
+//   const { state, dispatch } = useContext(StoreContext);
+//   return { state, dispatch };
+// };

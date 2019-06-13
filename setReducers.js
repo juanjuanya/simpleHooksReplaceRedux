@@ -1,7 +1,7 @@
-
+import { useActions } from './actions'
 const initialState = {
   // techList: ["TypeScript", "React Hooks"], 
-  userList: [{ username: 'e', password: 'f'}],
+  userList: [{ username: 'e', password: 'f', redirectTo: ''}],
   postList: [{ email: '123@qq.com'}],
   commentList: [],
 }
@@ -28,12 +28,14 @@ const userReducer = (state = initialState, action) => {
     case types.AUTH_SUCCESS:
       return {
         ...state,
-        userList: [...state.userList, action.payload]
+        userList: [...state.userList, action.payload],
       };
     case types.ERROR_MSG:
       return {
         ...state,
-        userList: [...state.userList, action.payload]
+        userList: state.userList.push(
+          {...action.payload, redirectTo: '/'}
+        ) 
       };
   }
 }
@@ -44,7 +46,7 @@ const postReducer = (state = initialState, action) => {
     case types.AUTH_SUCCESS:
       return {
         ...state,
-        userList: [...state.userList, action.payload]
+        userList: [...state.userList, action.payload, {redirectTo: '/'}]
       };
     case types.ERROR_MSG:
       return {
